@@ -1,4 +1,4 @@
-package com.example.aidldemo.aidl;
+package com.example.mylibrary.aidl;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,35 +8,36 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.example.mylibrary.DemoAidlInterface;
+import com.example.mylibrary.AidlDemoInter;
 
-public class DemoAidlImpl {
+
+public class AidlDemoImpl {
     private static final String TAG = "调试";
     private ServiceConnection mConnection;
-    private DemoAidlInterface mDemoAidlInterface;
+    private AidlDemoInter mAidlDemoInter;
 
     private static final String PKG = "com.example.testmodule";
     private static final String CLS = "com.example.testmodule.aidl.AidlService";
 
-    private static DemoAidlImpl sDemoAidl;
-    public static DemoAidlImpl getInstance(){
-        if (sDemoAidl == null){
-            sDemoAidl = new DemoAidlImpl();
+    private static AidlDemoImpl sAidlDemo;
+    public static AidlDemoImpl getInstance(){
+        if (sAidlDemo == null){
+            sAidlDemo = new AidlDemoImpl();
         }
 
-        return sDemoAidl;
+        return sAidlDemo;
     }
 
-    public DemoAidlImpl(){
+    public AidlDemoImpl(){
         mConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                mDemoAidlInterface = DemoAidlInterface.Stub.asInterface(iBinder);
+                mAidlDemoInter = AidlDemoInter.Stub.asInterface(iBinder);
             }
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
-                mDemoAidlInterface = null;
+                mAidlDemoInter = null;
             }
         };
     }
@@ -55,13 +56,13 @@ public class DemoAidlImpl {
     }
 
     public void unbindService(Context context){
-        //context.unbindService(mConnection);
-        Log.d(TAG,"解绑成功");
+        context.unbindService(mConnection);
+        Log.d(TAG,"AIDL解绑成功");
     }
 
     public String getTestData() {
         try {
-            return mDemoAidlInterface.getTestData();
+            return mAidlDemoInter.getTestData();
         } catch (RemoteException e) {
             e.printStackTrace();
         }

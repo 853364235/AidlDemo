@@ -6,7 +6,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.example.mylibrary.DemoAidlInterface;
+import com.example.mylibrary.AidlDemoInter;
 
 public class AidlService extends Service {
     private static final String TAG = "调试";
@@ -32,7 +32,7 @@ public class AidlService extends Service {
         return new MyBinder();
     }
 
-    private class MyBinder extends DemoAidlInterface.Stub{
+    private class MyBinder extends AidlDemoInter.Stub{
 
         @Override
         public String getTestData() throws RemoteException {
