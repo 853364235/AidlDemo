@@ -12,5 +12,6 @@ public class ExitReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         ActivityManager.getInstance().finishAllActivity();
+        System.exit(0);
     }
 }

@@ -43,10 +43,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
+
         Log.d(TAG, "onDestroy: app");
         AidlDemoImpl.getInstance().unbindService(this);
         sendBroadcast(new Intent().setAction(BROADCAST_EXIT));
-        super.onDestroy();
+        System.exit(0);
     }
 
     private void initAidl(){
