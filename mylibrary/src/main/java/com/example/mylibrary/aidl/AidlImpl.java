@@ -44,8 +44,6 @@ public class AidlImpl {
 
     public boolean bindService(Context context){
         Intent intent = new Intent();
-//        intent.setAction("com.example.testmodule.aidl.AidlService");
-//        intent.setPackage("com.example.testmodule");
         intent.setComponent(new ComponentName(PKG, CLS));
         boolean result = context.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
