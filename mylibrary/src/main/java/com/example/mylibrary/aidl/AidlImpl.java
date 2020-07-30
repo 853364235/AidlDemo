@@ -8,36 +8,36 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.example.mylibrary.AidlDemoInter;
+import com.example.mylibrary.Aidlable;
 
-
-public class AidlDemoImpl {
+public class AidlImpl {
     private static final String TAG = "调试";
     private ServiceConnection mConnection;
-    private AidlDemoInter mAidlDemoInter;
 
     private static final String PKG = "com.example.testmodule";
     private static final String CLS = "com.example.testmodule.aidl.AidlService";
 
-    private static AidlDemoImpl sAidlDemo;
-    public static AidlDemoImpl getInstance(){
+    private Aidlable mAidlable;
+
+    private static AidlImpl sAidlDemo;
+    public static AidlImpl getInstance(){
         if (sAidlDemo == null){
-            sAidlDemo = new AidlDemoImpl();
+            sAidlDemo = new AidlImpl();
         }
 
         return sAidlDemo;
     }
 
-    public AidlDemoImpl(){
+    private AidlImpl(){
         mConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                mAidlDemoInter = AidlDemoInter.Stub.asInterface(iBinder);
+                mAidlable = Aidlable.Stub.asInterface(iBinder);
             }
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
-                mAidlDemoInter = null;
+                mAidlable = null;
             }
         };
     }
@@ -62,7 +62,7 @@ public class AidlDemoImpl {
 
     public String getTestData() {
         try {
-            return mAidlDemoInter.getTestData();
+            return mAidlable.getTestData();
         } catch (RemoteException e) {
             e.printStackTrace();
         }

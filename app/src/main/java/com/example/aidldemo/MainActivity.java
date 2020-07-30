@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.example.mylibrary.aidl.AidlDemoImpl;
+import com.example.mylibrary.aidl.AidlImpl;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 if (msg.what == 1){
-                    Log.d(TAG, AidlDemoImpl.getInstance().getTestData());
+                    Log.d(TAG, AidlImpl.getInstance().getTestData());
                     MainActivity.this.finish();
                 }
             }
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
 
         Log.d(TAG, "onDestroy: app");
-        AidlDemoImpl.getInstance().unbindService(this);
+        AidlImpl.getInstance().unbindService(this);
         sendBroadcast(new Intent().setAction(BROADCAST_EXIT));
         System.exit(0);
     }
@@ -57,6 +57,6 @@ public class MainActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         sendBroadcast(intent);
 
-        AidlDemoImpl.getInstance().bindService(this);
+        AidlImpl.getInstance().bindService(this);
     }
 }
